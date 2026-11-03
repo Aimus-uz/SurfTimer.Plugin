@@ -1,0 +1,47 @@
+name: Build SurfTimer (GAMEPOINT)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # the project reads git status for build info
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish plugin
+        run: dotnet publish src/SurfTimer.Plugin.csproj -c Release -o out/plugin
+
+      - name: Publish API (shared)
+        run: dotnet publish api/SurfTimer.Api.csproj -c Release -o out/api
+
+      - name: Assemble server package (csgo/ layout)
+        run: |
+          set -e
+          PKG=package/csgo
+          mkdir -p "$PKG"
+          # configs, lang and data shipped in the repo
+          cp -r serverfiles/game/csgo/. "$PKG/"
+          # plugin
+          PLUG="$PKG/addons/counterstrikesharp/plugins/SurfTimer.Plugin"
+          mkdir -p "$PLUG"
+          cp out/plugin/*.dll "$PLUG/"
+          cp out/plugin/*.deps.json "$PLUG/" 2>/dev/null || true
+          # public API for addons -> shared/
+          SHARED="$PKG/addons/counterstrikesharp/shared/SurfTimer.Api"
+          mkdir -p "$SHARED"
+          cp out/api/SurfTimer.Api.dll "$SHARED/"
+          find package -type f | sort
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SurfTimer-csgo
+          path: package/
