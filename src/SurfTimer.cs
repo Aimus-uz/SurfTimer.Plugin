@@ -74,7 +74,7 @@ public partial class SurfTimer : BasePlugin
 		PlayerStateService.CleanupExpired();
 
 		// Initialise Map Object
-		if ((CurrentMap == null || CurrentMap.Name!.Equals(mapName)) && mapName.Contains("surf_"))
+		if ((CurrentMap == null || CurrentMap.Name!.Equals(mapName)) && (mapName.Contains("surf_") || mapName.Contains("bhop_")))
 		{
 			_logger.LogDebug($"[CS2 Surf] {Config.PluginName} Initializing Map object for {mapName}");
 
