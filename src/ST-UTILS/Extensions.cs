@@ -129,9 +129,13 @@ unsafe static class Extensions
 	/// <returns>True for Private IP</returns>
 	public static bool IsPrivateIP(string ip)
 	{
+		// GAMEPOINT: an address that isn't plain IPv4 (empty, IPv6, "loopback") counts as local -
+		// it can't be looked up in GeoIP anyway, and int.Parse on it would throw
 		var ipParts = ip.Split('.');
-		int firstOctet = int.Parse(ipParts[0]);
-		int secondOctet = int.Parse(ipParts[1]);
+		if (ipParts.Length != 4 ||
+			!int.TryParse(ipParts[0], out int firstOctet) ||
+			!int.TryParse(ipParts[1], out int secondOctet))
+			return true;
 
 		// 10.x.x.x range
 		if (firstOctet == 10)
@@ -143,6 +147,19 @@ unsafe static class Extensions
 
 		// 192.168.x.x range
 		if (firstOctet == 192 && secondOctet == 168)
+			return true;
+
+		// GAMEPOINT: 100.64.x.x to 100.127.x.x - CGNAT (provider's internal network, Tailscale).
+		// Not in the GeoIP database: the lookup threw and the player never got a SurfTimer profile
+		if (firstOctet == 100 && (secondOctet >= 64 && secondOctet <= 127))
+			return true;
+
+		// 127.x.x.x - localhost
+		if (firstOctet == 127)
+			return true;
+
+		// 169.254.x.x - link-local
+		if (firstOctet == 169 && secondOctet == 254)
 			return true;
 
 		return false;
