@@ -187,11 +187,11 @@ public partial class SurfTimer
 
 			var entry = item.Entry;
 			string aliases = HelpAliases(entry);
-			player.PrintToChat($"{Config.PluginPrefix} {LocalizationService.LocalizerNonNull["help_detail", HelpUsage(entry), entry.Text]}");
+			player.PrintToChat($"{Config.PluginPrefix} {LocalizationService.LocalizerNonNull["help_detail", HelpUsage(entry), UiText.Tr(entry.Text)]}");
 			if (aliases.Length > 0)
 				player.PrintToChat($"{Config.PluginPrefix} {LocalizationService.LocalizerNonNull["help_aliases", aliases]}");
 			if (entry.Detail.Length > 0)
-				player.PrintToChat($"{Config.PluginPrefix} {entry.Detail}");
+				player.PrintToChat($"{Config.PluginPrefix} {UiText.Tr(entry.Detail)}");
 			return;
 		}
 
@@ -216,7 +216,7 @@ public partial class SurfTimer
 		string aliases = HelpAliases(entry);
 		if (aliases.Length > 0)
 			rows.Add(PanelContext.Info("Aliases", aliases));
-		rows.AddRange(WrapHelp(entry.Detail).Select(line => PanelContext.Info(line)));
+		rows.AddRange(WrapHelp(UiText.Tr(entry.Detail)).Select(line => PanelContext.Info(line))); // GAMEPOINT: translated before it's cut into lines
 
 		// Optional arguments only ([...]) - it runs as typed without them
 		if (!entry.Usage.Contains('<'))

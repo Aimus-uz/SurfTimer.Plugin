@@ -212,6 +212,7 @@ public partial class SurfTimer : BasePlugin
 	{
 		_instance = this;
 		LocalizationService.Init(Localizer);
+		UiText.Init(this); // GAMEPOINT: menu / HUD texts (lang/ui_*.json)
 
 		// Our API for addons (SurfTimer.Api, e.g. the map chooser) - offered in Load, so it's there when the
 		// addons look for it in their OnAllPluginsLoaded

@@ -1,0 +1,232 @@
+/*
+	GAMEPOINT look for the SurfTimer HUD and popup menu - loaded after gp_surf_base.css (z4lab's own style, unchanged),
+	so only what differs is here. Colours from the GAMEPOINT design system:
+	  background  #0B0D12 / #12151C / #1A1F2A      text #F5F7FA, muted #8D97A8, dim #5C6678
+	  CT (accent) #009BED      T #F59E0B      brand #F3009A      status cyan #00E5ED      danger #FF4D6A
+	Data colours (timer, speed gradient, the colours players pick in !options) stay the base ones: they mean something
+	and !options names them.
+	Every "team-t" rule of the base is overridden too - otherwise its yellow would come back on the T side.
+*/
+
+/* ---- Text ---- */
+
+.Seg
+{
+	color: #F5F7FA;
+	text-shadow: 0px 1px 3px 1.0 #000000dd;
+}
+
+.Seg.lbl,
+.Seg.unit
+{
+	color: #8D97A8;
+}
+
+.Seg.MidSeg
+{
+	text-shadow: 0px 1px 4px 1.5 #0B0D12ee;
+}
+
+/* ---- Top bar ---- */
+
+.SlotTop .Row.band
+{
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #0B0D1200 ), color-stop( 0.2, #0B0D12c8 ), color-stop( 0.8, #0B0D12c8 ), to( #0B0D1200 ) );
+}
+
+.SlotTop .Row.sub.band
+{
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #0B0D1200 ), color-stop( 0.2, #0B0D1299 ), color-stop( 0.8, #0B0D1299 ), to( #0B0D1200 ) );
+}
+
+/* ---- Center fields ---- */
+
+.Field
+{
+	background-color: #0B0D12bf;
+	border-bottom: 2px solid #009BED;
+	border-radius: 4px 4px 0px 0px;
+}
+
+.SlotCenter.team-t .Field { border-bottom: 2px solid #F59E0B; }
+
+/* ---- Side panels ---- */
+
+.SlotLeft .Row
+{
+	border-left: 2px solid #009BED;
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #0B0D12d0 ), to( #0B0D1200 ) );
+}
+
+.SlotRight .Row
+{
+	border-right: 2px solid #009BED;
+	background-color: gradient( linear, 100% 0%, 0% 0%, from( #0B0D12d0 ), to( #0B0D1200 ) );
+}
+
+.SlotLeft.team-t .Row { border-left: 2px solid #F59E0B; }
+.SlotRight.team-t .Row { border-right: 2px solid #F59E0B; }
+
+.SlotLeft .Row.hdr,
+.SlotRight .Row.hdr,
+.SlotLeft.team-t .Row.hdr,
+.SlotRight.team-t .Row.hdr
+{
+	border-left: 0px solid #00000000;
+	border-right: 0px solid #00000000;
+	background-color: #00000000;
+}
+
+/* ---- Popup menu ---- */
+
+/* Wider than the base: Uzbek texts are longer */
+.Menu
+{
+	width: 600px;
+	padding: 14px 16px 12px 16px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #12151Cf5 ), to( #0B0D12f5 ) );
+	border-top: 3px solid #009BED;
+	border-radius: 6px;
+	box-shadow: #000000aa 0px 8px 32px 0px;
+}
+
+.MenuTitle
+{
+	font-size: 17px;
+	letter-spacing: 1.5px;
+	color: #F5F7FA;
+}
+
+.MenuBack,
+.MenuClose
+{
+	border: 1px solid #ffffff1f;
+	border-radius: 4px;
+}
+
+.MenuBack:hover { background-color: #009BED; }
+.MenuBack:hover .MenuBackLabel { color: #FFFFFF; }
+.MenuClose:hover { background-color: #F3009A; }
+.MenuClose:hover .MenuCloseLabel { color: #FFFFFF; }
+
+.MenuBackLabel,
+.MenuCloseLabel
+{
+	color: #8D97A8;
+}
+
+/* Result of the last action */
+.MenuStatus,
+.Menu.team-t .MenuStatus
+{
+	color: #00E5ED;
+	background-color: #00E5ED1a;
+	border-radius: 4px;
+}
+
+/* Tabs - the active one in the brand gradient */
+.MenuTab
+{
+	background-color: #ffffff0a;
+	border-radius: 4px;
+}
+
+.MenuTab:hover { background-color: #ffffff1a; }
+
+.MenuTab.on
+{
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #009BED ), to( #F3009A ) );
+}
+
+.MenuTabLabel { color: #8D97A8; }
+.MenuTab.on .MenuTabLabel { color: #FFFFFF; }
+
+/* Rows */
+.MenuItem
+{
+	background-color: #1A1F2Acc;
+	border-left: 2px solid #00000000;
+	border-radius: 4px;
+}
+
+.MenuItem:hover
+{
+	background-color: #009BED29;
+	border-left: 2px solid #009BED;
+}
+
+.MenuItem.info,
+.MenuItem.info:hover
+{
+	background-color: #1A1F2Acc;
+	border-left: 2px solid #00000000;
+}
+
+.MenuItem.danger .MenuText { color: #FF4D6A; }
+
+.MenuItem.danger:hover
+{
+	background-color: #FF4D6A29;
+	border-left: 2px solid #FF4D6A;
+}
+
+/* Toggles: on = cyan chip, off = grey chip */
+.MenuItem.on .MenuRight
+{
+	color: #0B0D12;
+	background-color: #00E5ED;
+	border-radius: 3px;
+}
+
+.MenuItem.off .MenuRight
+{
+	color: #8D97A8;
+	background-color: #ffffff14;
+	border-radius: 3px;
+}
+
+.MenuNum { color: #5C6678; }
+.MenuText { color: #F5F7FA; }
+.MenuSub { color: #8D97A8; }
+.MenuRight { color: #00E5ED; }
+
+/* Paging */
+.MenuPage
+{
+	border: 1px solid #ffffff1f;
+	border-radius: 4px;
+	padding: 4px 16px;
+}
+
+.MenuPage:hover { background-color: #009BED; }
+.MenuPageButtonLabel { font-size: 16px; font-weight: bold; color: #F5F7FA; }
+.MenuPageLabel { color: #8D97A8; }
+
+/* ---- T side: the same with the T accent ---- */
+
+.Menu.team-t { border-top: 3px solid #F59E0B; }
+.Menu.team-t .MenuBack:hover { background-color: #F59E0B; }
+.Menu.team-t .MenuPage:hover { background-color: #F59E0B; }
+
+.Menu.team-t .MenuTab.on
+{
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #F59E0B ), to( #F3009A ) );
+}
+
+.Menu.team-t .MenuItem:hover
+{
+	background-color: #F59E0B29;
+	border-left: 2px solid #F59E0B;
+}
+
+.Menu.team-t .MenuItem.info:hover
+{
+	background-color: #1A1F2Acc;
+	border-left: 2px solid #00000000;
+}
+
+.Menu.team-t .MenuItem.danger:hover
+{
+	background-color: #FF4D6A29;
+	border-left: 2px solid #FF4D6A;
+}

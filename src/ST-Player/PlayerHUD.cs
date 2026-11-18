@@ -95,8 +95,8 @@ public class PlayerHud
 
 	// Values can contain player names, so they're escaped for the HTML HUD (the custom HUD is plain text)
 	private static string ToHtml(HudElement e) =>
-		FormatHUDElementHTML(WebUtility.HtmlEncode(e.Title), WebUtility.HtmlEncode(e.Body), e.Color, e.Size == HudSize.Small ? "s" : "m")
-		+ WebUtility.HtmlEncode(e.Suffix);
+		FormatHUDElementHTML(WebUtility.HtmlEncode(UiText.Tr(e.Title)), WebUtility.HtmlEncode(e.Body), e.Color, e.Size == HudSize.Small ? "s" : "m")
+		+ WebUtility.HtmlEncode(UiText.Tr(e.Suffix));
 
 	// ---- Center notifications (zone messages) ----
 
@@ -1127,6 +1127,7 @@ public class PlayerHud
 
 	private void SendText(string id, string text)
 	{
+		text = UiText.Tr(text); // GAMEPOINT: every text of the custom HUD and its popup menu - lang/ui_*.json
 		if (_sentText.TryGetValue(id, out var last) && last == text)
 			return;
 

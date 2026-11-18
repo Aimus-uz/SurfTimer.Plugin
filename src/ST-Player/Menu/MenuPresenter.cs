@@ -46,7 +46,7 @@ internal static class MenuPresenter
 
 	private static void ShowChat(Player player, HudMenu menu)
 	{
-		var chatMenu = new ChatMenu(string.IsNullOrEmpty(menu.Status) ? menu.Title : $"{menu.Title} - {menu.Status}");
+		var chatMenu = new ChatMenu(string.IsNullOrEmpty(menu.Status) ? UiText.Tr(menu.Title) : $"{UiText.Tr(menu.Title)} - {UiText.Tr(menu.Status)}");
 
 		// Menus with navigation (back / tab callbacks): the active tab, then back and the other tabs.
 		// Plain menus: all tabs in order, one line per item.
@@ -56,7 +56,7 @@ internal static class MenuPresenter
 
 		foreach (var item in items)
 		{
-			string line = string.Join(" - ", new[] { item.Text, item.Sub, item.RightText() }.Where(s => !string.IsNullOrEmpty(s)));
+			string line = string.Join(" - ", new[] { item.Text, item.Sub, item.RightText() }.Select(UiText.Tr).Where(s => !string.IsNullOrEmpty(s)));
 			// Info rows are shown but can't be picked
 			chatMenu.AddMenuOption(line, (p, _) => item.OnSelect?.Invoke(p), disabled: item.OnSelect == null);
 		}
@@ -64,7 +64,7 @@ internal static class MenuPresenter
 		if (navigable)
 		{
 			if (menu.OnBack != null)
-				chatMenu.AddMenuOption("« Back", (p, _) => menu.OnBack(p));
+				chatMenu.AddMenuOption(UiText.Tr("« Back"), (p, _) => menu.OnBack(p));
 			if (menu.OnTabChanged != null)
 			{
 				for (int t = 0; t < menu.Tabs.Count; t++)
@@ -72,7 +72,7 @@ internal static class MenuPresenter
 					if (t == activeTab)
 						continue;
 					int tab = t;
-					chatMenu.AddMenuOption($"» {menu.Tabs[t].Name}", (p, _) => menu.OnTabChanged(p, tab));
+					chatMenu.AddMenuOption($"» {UiText.Tr(menu.Tabs[t].Name)}", (p, _) => menu.OnTabChanged(p, tab));
 				}
 			}
 		}
